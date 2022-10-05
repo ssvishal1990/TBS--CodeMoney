@@ -8,3 +8,4 @@ Try to remember all basic unity hotkeys
 
 Publisher/Subscriber
 observer pattern code writing for GD
+C# properties
