@@ -5,23 +5,36 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 4f;
+    [SerializeField] private float characterRotateSpeed = 4f; 
+    [SerializeField] private Animator unitAnimator;
+    
     private Vector3 targetPosition;
 
     private void Update()
     {
+        UpdateCharacterPosition();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Move(MouseWorld.GetPosition());
+        }
+    }
+
+    private void UpdateCharacterPosition()
+    {
+        unitAnimator.SetBool("isWalking", true);
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
         if (!checkIfReached())
         {
             transform.position += moveDirection * Time.deltaTime * moveSpeed;
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * characterRotateSpeed);
+            unitAnimator.SetBool("isWalking", true);
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
+        else
         {
-            Move(new Vector3(4, 0, 4));
-
+            unitAnimator.SetBool("isWalking", false);
         }
-
     }
+
     private void Move(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
