@@ -12,6 +12,11 @@ public class GridDebugObject : MonoBehaviour
     {
         updateGridText();
     }
+
+    private void Update()
+    {
+        updateGridText();
+    }
     public void SetGridObject(GridObject gridObject)
     {
         this.gridObject = gridObject;

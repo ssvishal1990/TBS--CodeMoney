@@ -37,7 +37,7 @@ public class GridSystem
     {
         return new GridPosition(
             Mathf.RoundToInt(worldPosition.x / cellSize),
-            Mathf.RoundToInt(worldPosition.x / cellSize)
+            Mathf.RoundToInt(worldPosition.z / cellSize)
             );
     }
 
