@@ -38,18 +38,6 @@ public class Unit : MonoBehaviour
 
     private void UpdateCharacterPosition()
     {
-        unitAnimator.SetBool("isWalking", true);
-        Vector3 moveDirection = (targetPosition - transform.position).normalized;
-        if (!checkIfReached())
-        {
-            transform.position += moveDirection * Time.deltaTime * moveSpeed;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * characterRotateSpeed);
-            unitAnimator.SetBool("isWalking", true);
-        }
-        else
-        {
-            unitAnimator.SetBool("isWalking", false);
-        }
         GridPosition newgridPosition = LevelGrid.Instance.getGridPosition(transform.position);
         if (gridPosition != newgridPosition)
         {
@@ -64,17 +52,6 @@ public class Unit : MonoBehaviour
         this.targetPosition = targetPosition;
     }
 
-    private bool checkIfReached()
-    {
-        int distance =  (int)Mathf.Round(Vector3.Distance(transform.position, targetPosition));
-        if (distance == 0)
-        {
-            return true;
-        }else
-        {
-            return false;
-        }
-    }
 
     public GridPosition GetGridPosition()
     {

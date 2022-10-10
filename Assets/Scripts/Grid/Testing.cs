@@ -6,6 +6,8 @@ public class Testing : MonoBehaviour
 {
     [SerializeField] private Unit unit;
 
+
+
     void Start()
     {
     }
@@ -15,6 +17,17 @@ public class Testing : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             unit.getMoveAction().GetValidActionGridPosition();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (GridSystemVisual.Instance.checkIfGridIsHidden())
+            {
+                GridSystemVisual.Instance.HideAllGridPosition();
+            }else
+            {
+                GridSystemVisual.Instance.showGridPositionList(unit.getMoveAction().GetValidActionGridPosition());
+            }
         }
     }
 

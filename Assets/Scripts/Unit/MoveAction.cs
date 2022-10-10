@@ -37,6 +37,7 @@ public class MoveAction : MonoBehaviour
         {
             transform.position += moveDirection * Time.deltaTime * moveSpeed;
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * characterRotateSpeed);
+            GetValidActionGridPosition();
             unitAnimator.SetBool("isWalking", true);
         }
         else
@@ -101,7 +102,7 @@ public class MoveAction : MonoBehaviour
                     continue;
                 }
                 validGridPositions.Add(testGridPosition);
-                Debug.Log(testGridPosition);
+                //Debug.Log(testGridPosition);
             }
         }
         return validGridPositions;

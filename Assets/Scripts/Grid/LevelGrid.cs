@@ -19,6 +19,8 @@ public class LevelGrid : MonoBehaviour
             return;
         }
         Instance = this;
+        gridSystem = new GridSystem(10, 10, 2f);
+        gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
         //gridSystem = new GridSystem(10, 10, 2f);
         //gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
@@ -26,8 +28,7 @@ public class LevelGrid : MonoBehaviour
     // had to move this to start due to the conflic
     private void Start()
     {
-        gridSystem = new GridSystem(10, 10, 2f);
-        gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
+
     }
 
     public void AddUnitAtPosition(GridPosition gridPosition, Unit unit)
@@ -61,12 +62,17 @@ public class LevelGrid : MonoBehaviour
 
     public bool isValidGridPosition(GridPosition gridPosition) => gridSystem.isValidGridPosition(gridPosition);
 
+    public int getHeight() => gridSystem.getHeight();
+
+    public int getWidth() => gridSystem.getWidhth();
+    
     public bool hasAnyUnitOnGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         return gridObject.HasAnyUnit();
 
     }
+
 
     
 }
