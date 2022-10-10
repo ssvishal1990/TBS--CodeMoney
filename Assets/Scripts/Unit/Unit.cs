@@ -13,9 +13,12 @@ public class Unit : MonoBehaviour
 
     private GridPosition gridPosition;
 
+    private MoveAction moveAction;
+
     private void Awake()
     {
         targetPosition = transform.position;
+        moveAction = GetComponent<MoveAction>();
         //LevelGrid.Instance.SetUnitAtPosition(LevelGrid.Instance.getGridPosition(transform.position), this);
     }
 
@@ -71,5 +74,15 @@ public class Unit : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public GridPosition GetGridPosition()
+    {
+        return gridPosition;
+    }
+
+    public MoveAction getMoveAction()
+    {
+        return moveAction;
     }
 }

@@ -57,5 +57,16 @@ public class LevelGrid : MonoBehaviour
 
     public GridPosition getGridPosition(Vector3 Pos) => gridSystem.GetGridPosition(Pos);
 
+    public Vector3 getWorldPosition(GridPosition Pos) => gridSystem.GetWorldPosition(Pos);
+
+    public bool isValidGridPosition(GridPosition gridPosition) => gridSystem.isValidGridPosition(gridPosition);
+
+    public bool hasAnyUnitOnGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.HasAnyUnit();
+
+    }
+
     
 }

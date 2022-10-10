@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour
         {
             targetFollowOffSet.y += zoomAmount;
         }
-        followOffset.y = Mathf.Clamp(targetFollowOffSet.y, MIN_FOLLOW_Y_CONSTANT, MAX_FOLLOW_Y_CONSTANT);
+        targetFollowOffSet.y = Mathf.Clamp(targetFollowOffSet.y, MIN_FOLLOW_Y_CONSTANT, MAX_FOLLOW_Y_CONSTANT);
         cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset,
                                                             targetFollowOffSet, 
                                                             Time.deltaTime *zoomSpeed);

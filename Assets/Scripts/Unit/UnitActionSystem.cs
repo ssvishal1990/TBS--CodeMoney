@@ -13,6 +13,7 @@ public class UnitActionSystem : MonoBehaviour
 
     [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayerMask;
+    [SerializeField] private MoveAction moveAction;
 
     private void Awake()
     {
@@ -33,7 +34,14 @@ public class UnitActionSystem : MonoBehaviour
             {
                 return;
             }
-            selectedUnit.Move(MouseWorld.GetPosition());
+
+            GridPosition mouseGridPosition = LevelGrid.Instance.getGridPosition(MouseWorld.GetPosition()); 
+            if (selectedUnit.getMoveAction().isValidActionGridPosition(mouseGridPosition))
+            {
+                selectedUnit.getMoveAction().Move(mouseGridPosition);
+            }
+            //selectedUnit.Move(MouseWorld.GetPosition());
+            //moveAction.Move(MouseWorld.GetPosition());
         }
     }
 
