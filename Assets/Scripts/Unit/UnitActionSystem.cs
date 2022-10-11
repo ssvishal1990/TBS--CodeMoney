@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Actions;
 
 public class UnitActionSystem : MonoBehaviour
 {
@@ -42,6 +43,11 @@ public class UnitActionSystem : MonoBehaviour
             }
             //selectedUnit.Move(MouseWorld.GetPosition());
             //moveAction.Move(MouseWorld.GetPosition());
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            selectedUnit.getSpinAction().StartSpinning();
         }
     }
 

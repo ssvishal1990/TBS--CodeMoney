@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Actions;
 
 public class Unit : MonoBehaviour
 {
@@ -8,12 +9,13 @@ public class Unit : MonoBehaviour
     
 
     private GridPosition gridPosition;
-
     private MoveAction moveAction;
+    private SpinAction spinAction;
 
     private void Awake()
     {
         moveAction = GetComponent<MoveAction>();
+        spinAction = GetComponent<SpinAction>();
         //LevelGrid.Instance.SetUnitAtPosition(LevelGrid.Instance.getGridPosition(transform.position), this);
     }
 
@@ -52,5 +54,9 @@ public class Unit : MonoBehaviour
     public MoveAction getMoveAction()
     {
         return moveAction;
+    }
+    public SpinAction getSpinAction()
+    {
+        return spinAction;
     }
 }
