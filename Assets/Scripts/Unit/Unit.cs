@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 4f;
-    [SerializeField] private float characterRotateSpeed = 4f; 
-    [SerializeField] private Animator unitAnimator;
     
-    private Vector3 targetPosition;
-
+    
 
     private GridPosition gridPosition;
 
@@ -17,7 +13,6 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        targetPosition = transform.position;
         moveAction = GetComponent<MoveAction>();
         //LevelGrid.Instance.SetUnitAtPosition(LevelGrid.Instance.getGridPosition(transform.position), this);
     }
@@ -47,11 +42,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Move(Vector3 targetPosition)
-    {
-        this.targetPosition = targetPosition;
-    }
-
+    
 
     public GridPosition GetGridPosition()
     {
