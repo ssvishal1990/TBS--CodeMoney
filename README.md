@@ -11,3 +11,6 @@ Publisher/Subscriber
 observer pattern code writing for GD
 
 C# properties
+
+
+C# Delegates --> They're essentially like callback methods
