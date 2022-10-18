@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Actions
         [SerializeField] private int maxMoveDistance = 4;
 
         private Vector3 targetPosition;
+        private Action onActionComplete;
 
         protected override void Awake()
         {
@@ -49,6 +51,7 @@ namespace Assets.Scripts.Actions
             {
                 unitAnimator.SetBool("isWalking", false);
                 isActive = false;
+                onActionComplete();
             }
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * characterRotateSpeed);
         }
@@ -58,8 +61,9 @@ namespace Assets.Scripts.Actions
             this.targetPosition = targetPosition;
         }
 
-        public void Move(GridPosition gridPosition)
+        public void Move(GridPosition gridPosition, Action onActionComplete)
         {
+            this.onActionComplete = onActionComplete;
             this.targetPosition = LevelGrid.Instance.getWorldPosition(gridPosition);
             isActive = true;
             //this.targetPosition = targetPosition;
@@ -120,6 +124,13 @@ namespace Assets.Scripts.Actions
         {
             return GetValidActionGridPosition().Contains(gridPosition);
         }
+
+        public override string GetActionName()
+        {
+            return "Move";
+        }
+
+       
     }
 }
 

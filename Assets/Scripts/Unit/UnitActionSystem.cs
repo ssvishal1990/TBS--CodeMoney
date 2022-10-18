@@ -16,6 +16,11 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField] private LayerMask unitLayerMask;
     [SerializeField] private MoveAction moveAction;
 
+
+    private BaseAction selectedAction;
+
+    private bool isBusy;
+
     private void Awake()
     {
         if (Instance != null)
@@ -26,9 +31,32 @@ public class UnitActionSystem : MonoBehaviour
         }
         Instance = this;
     }
+
+    private void Start()
+    {
+        setSelectedUnit(selectedUnit);
+    }
     void Update()
     {
-        
+        if (isBusy)
+        {
+            return;
+        }
+        MoveIfValidGridPosition();
+        SpinUnit();
+    }
+
+    private void HandleSelectedAction()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+
+        }
+    }
+
+    private void MoveIfValidGridPosition()
+    {
+
         if (Input.GetMouseButtonDown(0))
         {
             if (handleUnitSelection())
@@ -36,18 +64,22 @@ public class UnitActionSystem : MonoBehaviour
                 return;
             }
 
-            GridPosition mouseGridPosition = LevelGrid.Instance.getGridPosition(MouseWorld.GetPosition()); 
+            GridPosition mouseGridPosition = LevelGrid.Instance.getGridPosition(MouseWorld.GetPosition());
             if (selectedUnit.getMoveAction().isValidActionGridPosition(mouseGridPosition))
             {
-                selectedUnit.getMoveAction().Move(mouseGridPosition);
+                setBusy();
+                selectedUnit.getMoveAction().Move(mouseGridPosition, clearBusy);
             }
-            //selectedUnit.Move(MouseWorld.GetPosition());
-            //moveAction.Move(MouseWorld.GetPosition());
         }
+    }
 
+    //Signature for the delegate needs to match the called method signature
+    private void SpinUnit()
+    {
         if (Input.GetMouseButtonDown(1))
         {
-            selectedUnit.getSpinAction().StartSpinning();
+            setBusy();
+            selectedUnit.getSpinAction().StartSpinning(clearBusy);
         }
     }
 
@@ -73,6 +105,7 @@ public class UnitActionSystem : MonoBehaviour
     {
         selectedUnit = unit;
 
+        setSelectedAction(unit.getMoveAction());
         // Below code line  and if checks are doing the same thing
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         //if (OnSelectedUnitChanged != null)
@@ -81,8 +114,23 @@ public class UnitActionSystem : MonoBehaviour
         //}
     }
 
+    public void setSelectedAction(BaseAction action)
+    {
+        selectedAction = action;
+    }
+
     public Unit getSelectedUnit()
     {
         return selectedUnit;
+    }
+
+    private void setBusy()
+    {
+        isBusy = true;
+    }
+
+    private void clearBusy()
+    {
+        isBusy = false;
     }
 }

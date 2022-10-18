@@ -12,10 +12,13 @@ public class Unit : MonoBehaviour
     private MoveAction moveAction;
     private SpinAction spinAction;
 
+    private BaseAction[] baseActionArray;
+
     private void Awake()
     {
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
+        baseActionArray = GetComponents<BaseAction>();
         //LevelGrid.Instance.SetUnitAtPosition(LevelGrid.Instance.getGridPosition(transform.position), this);
     }
 
@@ -58,5 +61,10 @@ public class Unit : MonoBehaviour
     public SpinAction getSpinAction()
     {
         return spinAction;
+    }
+
+    public BaseAction[] getBaseActionArray()
+    {
+        return baseActionArray;
     }
 }

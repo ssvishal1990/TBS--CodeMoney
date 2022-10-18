@@ -12,6 +12,8 @@ namespace Assets.Scripts.Actions
         {
             unit = GetComponent<Unit>();
         }
+
+        public abstract string GetActionName();
     }
 
    
