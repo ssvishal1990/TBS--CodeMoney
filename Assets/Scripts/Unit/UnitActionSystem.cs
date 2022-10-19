@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Actions;
+using UnityEngine.EventSystems;
 
 public class UnitActionSystem : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField] private MoveAction moveAction;
 
 
-    private BaseAction selectedAction;
+    [SerializeField] private BaseAction selectedAction;
 
     private bool isBusy;
 
@@ -42,19 +43,44 @@ public class UnitActionSystem : MonoBehaviour
         {
             return;
         }
-        MoveIfValidGridPosition();
-        SpinUnit();
+        //MoveIfValidGridPosition();
+        //SpinUnit();
+        if (handleUnitSelection())
+        {
+            return;
+        }
+        
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        HandleSelectedAction();
     }
 
     private void HandleSelectedAction()
     {
         if (Input.GetMouseButtonDown(0))
         {
-
+            GridPosition mouseGridPosition = LevelGrid.Instance.getGridPosition(MouseWorld.GetPosition());
+            if (selectedAction.isValidActionGridPosition(mouseGridPosition))
+            {
+                setBusy();
+                selectedAction.TakeAction(mouseGridPosition, clearBusy);
+            }
+            
+            //switch (selectedAction)
+            //{
+            //    case MoveAction moveAction:
+            //        MoveIfValidGridPosition(moveAction);
+            //        break;
+            //    case SpinAction spinAction:
+            //        SpinUnit();
+            //        break;
+            //}
         }
     }
 
-    private void MoveIfValidGridPosition()
+    private void MoveIfValidGridPosition(MoveAction moveAction)
     {
 
         if (Input.GetMouseButtonDown(0))
@@ -65,10 +91,10 @@ public class UnitActionSystem : MonoBehaviour
             }
 
             GridPosition mouseGridPosition = LevelGrid.Instance.getGridPosition(MouseWorld.GetPosition());
-            if (selectedUnit.getMoveAction().isValidActionGridPosition(mouseGridPosition))
+            if (moveAction.isValidActionGridPosition(mouseGridPosition))
             {
                 setBusy();
-                selectedUnit.getMoveAction().Move(mouseGridPosition, clearBusy);
+                moveAction.TakeAction(mouseGridPosition, clearBusy);
             }
         }
     }
@@ -76,25 +102,33 @@ public class UnitActionSystem : MonoBehaviour
     //Signature for the delegate needs to match the called method signature
     private void SpinUnit()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
             setBusy();
-            selectedUnit.getSpinAction().StartSpinning(clearBusy);
+            selectedUnit.getSpinAction().TakeAction(selectedUnit.GetGridPosition(), clearBusy);
         }
     }
 
     private bool handleUnitSelection()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        bool unitHit = Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask);
-        if (unitHit)
+        if (Input.GetMouseButtonDown(0))
         {
-            //return raycastHit.collider.gameObject.GetComponent<Unit>();
-
-            if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            bool unitHit = Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask);
+            if (unitHit)
             {
-                setSelectedUnit(unit);
-                return true;
+                //return raycastHit.collider.gameObject.GetComponent<Unit>();
+
+                if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
+                {
+                    if (unit == selectedUnit)
+                    {
+                        //This unit is already selected
+                        return false;
+                    }
+                    setSelectedUnit(unit);
+                    return true;
+                }
             }
         }
         return false;
@@ -122,6 +156,11 @@ public class UnitActionSystem : MonoBehaviour
     public Unit getSelectedUnit()
     {
         return selectedUnit;
+    }
+
+    public BaseAction getSelectedAction()
+    {
+        return selectedAction;
     }
 
     private void setBusy()

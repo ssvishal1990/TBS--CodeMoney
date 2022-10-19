@@ -31,7 +31,7 @@ namespace Assets.Scripts.Actions
             }
         }
 
-        public void StartSpinning(Action spinCompletedDelegate)
+        public override void TakeAction(GridPosition gridPosition, Action spinCompletedDelegate)
         {
             this.spinCompletedDelegate = spinCompletedDelegate;
             isActive = true;
@@ -41,6 +41,17 @@ namespace Assets.Scripts.Actions
         public override string GetActionName()
         {
             return "Spin";
+        }
+
+        public override List<GridPosition> GetValidActionGridPosition()
+        {
+            List<GridPosition> validGridPositionList = new List<GridPosition>();
+            GridPosition unitGridPosition = unit.GetGridPosition();
+
+            return new List<GridPosition>()
+            {
+                unitGridPosition
+            };
         }
     }
 }

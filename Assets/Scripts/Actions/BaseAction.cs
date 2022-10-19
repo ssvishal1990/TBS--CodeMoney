@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Actions
@@ -14,6 +16,15 @@ namespace Assets.Scripts.Actions
         }
 
         public abstract string GetActionName();
+
+        public abstract void TakeAction(GridPosition gridPosition, Action onActionCompleted);
+
+        public bool isValidActionGridPosition(GridPosition gridPosition)
+        {
+            return GetValidActionGridPosition().Contains(gridPosition);
+        }
+
+        public abstract List<GridPosition> GetValidActionGridPosition();
     }
 
    

@@ -19,15 +19,18 @@ public class UnitActionSystemUI : MonoBehaviour
 
     private void CreateUnitActionButtons()
     {
+        Unit selectedUnit = UnitActionSystem.Instance.getSelectedUnit();
+        
         foreach (Transform buttonTransform in actionButtonContainerTransform)
         {
             Destroy(buttonTransform.gameObject);
         }
 
-        Unit selectedUnit = UnitActionSystem.Instance.getSelectedUnit();
+        
 
         foreach (BaseAction baseAction in selectedUnit.getBaseActionArray())
         {
+            Debug.Log("UnitActionSYstem UI Base action list --> " + baseAction.GetActionName());
             Transform actionButtonTransform = Instantiate(actionButtonPrefab, actionButtonContainerTransform);
             ActionButtonUI actionButtonUI = actionButtonTransform.GetComponent<ActionButtonUI>();
             actionButtonUI.setBaseAction(baseAction);
