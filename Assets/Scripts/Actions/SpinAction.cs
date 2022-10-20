@@ -53,6 +53,11 @@ namespace Assets.Scripts.Actions
                 unitGridPosition
             };
         }
+
+        public override int getActionPointsCost()
+        {
+            return 2;
+        }
     }
 }
 

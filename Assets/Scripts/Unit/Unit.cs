@@ -5,14 +5,15 @@ using Assets.Scripts.Actions;
 
 public class Unit : MonoBehaviour
 {
-    
+    private int actionPoints = 2;
+
     
 
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private SpinAction spinAction;
-
     private BaseAction[] baseActionArray;
+
 
     private void Awake()
     {
@@ -66,5 +67,40 @@ public class Unit : MonoBehaviour
     public BaseAction[] getBaseActionArray()
     {
         return baseActionArray;
+    }
+
+    public bool CanSpendActionPointsToTakeActions(BaseAction baseAction)
+    {
+        if (actionPoints >= baseAction.getActionPointsCost())
+        {
+            return true;
+        }else
+        {
+            return false;
+        }
+        
+    }
+
+    private void SpendActionPoints(int amount)
+    {
+        actionPoints -= amount;
+    }
+
+    public bool TrySpendingActionPointToPerformAction(BaseAction baseAction)
+    {
+        if (CanSpendActionPointsToTakeActions(baseAction))
+        {
+            SpendActionPoints(baseAction.getActionPointsCost());
+            return true;
+        }else
+        {
+            return false;
+        }
+
+    }
+
+    public int getCurrentActionPoints()
+    {
+        return actionPoints;
     }
 }

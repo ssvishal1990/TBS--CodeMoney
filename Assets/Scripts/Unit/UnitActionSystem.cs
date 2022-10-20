@@ -12,6 +12,8 @@ public class UnitActionSystem : MonoBehaviour
 
     public event EventHandler OnSelectedUnitChanged;
     public event EventHandler OnSelectedActionChanged;
+    public event EventHandler<bool> onBusyStatusChange;
+    public event EventHandler onActionStarted;
 
 
     [SerializeField] private Unit selectedUnit;
@@ -21,7 +23,7 @@ public class UnitActionSystem : MonoBehaviour
 
     [SerializeField] private BaseAction selectedAction;
 
-    private bool isBusy;
+    [SerializeField] private bool isBusy;
 
     private void Awake()
     {
@@ -63,12 +65,18 @@ public class UnitActionSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.getGridPosition(MouseWorld.GetPosition());
-            if (selectedAction.isValidActionGridPosition(mouseGridPosition))
+            if (!selectedAction.isValidActionGridPosition(mouseGridPosition))
             {
-                setBusy();
-                selectedAction.TakeAction(mouseGridPosition, clearBusy);
+                return;
             }
-            
+            if (!selectedUnit.TrySpendingActionPointToPerformAction(selectedAction))
+            {
+                return;
+            }
+            setBusy();
+            onActionStarted?.Invoke(this, EventArgs.Empty);
+            selectedAction.TakeAction(mouseGridPosition, clearBusy);
+
             //switch (selectedAction)
             //{
             //    case MoveAction moveAction:
@@ -155,9 +163,15 @@ public class UnitActionSystem : MonoBehaviour
         OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
     }
 
+
     public Unit getSelectedUnit()
     {
         return selectedUnit;
+    }
+
+    public bool getBusyState()
+    {
+        return isBusy;
     }
 
     public BaseAction getSelectedAction()
@@ -166,12 +180,14 @@ public class UnitActionSystem : MonoBehaviour
     }
 
     private void setBusy()
-    {
+    {   
         isBusy = true;
+        onBusyStatusChange?.Invoke(this, isBusy);
     }
 
     private void clearBusy()
     {
         isBusy = false;
+        onBusyStatusChange?.Invoke(this, isBusy);
     }
 }
