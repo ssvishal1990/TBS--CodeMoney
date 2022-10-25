@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Actions;
+using System;
 
 public class Unit : MonoBehaviour
 {
-    private int actionPoints = 2;
+    public static EventHandler OnAnyActionPointsChanged;
+
+    private const int ACTION_POINTS_MAX = 2;
+    private int actionPoints = ACTION_POINTS_MAX;
 
     
 
@@ -27,14 +31,13 @@ public class Unit : MonoBehaviour
     {
         gridPosition = LevelGrid.Instance.getGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtPosition(gridPosition, this);
+        TurnSystem.Instance.onTurnChanged += TurnSystem_onTurnChanged;
     }
+
+
     private void Update()
     {
         UpdateCharacterPosition();
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Move(MouseWorld.GetPosition());
-        //}
     }
 
     private void UpdateCharacterPosition()
@@ -42,7 +45,7 @@ public class Unit : MonoBehaviour
         GridPosition newgridPosition = LevelGrid.Instance.getGridPosition(transform.position);
         if (gridPosition != newgridPosition)
         {
-            Debug.Log("Change in grid Position detected");
+            //Debug.Log("Change in grid Position detected");
             LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newgridPosition);
             gridPosition = newgridPosition;
         }
@@ -84,6 +87,7 @@ public class Unit : MonoBehaviour
     private void SpendActionPoints(int amount)
     {
         actionPoints -= amount;
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public bool TrySpendingActionPointToPerformAction(BaseAction baseAction)
@@ -102,5 +106,12 @@ public class Unit : MonoBehaviour
     public int getCurrentActionPoints()
     {
         return actionPoints;
+    }
+
+
+    private void TurnSystem_onTurnChanged(object sender, EventArgs e)
+    {
+        actionPoints = ACTION_POINTS_MAX;
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
     }
 }
