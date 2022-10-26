@@ -44,6 +44,16 @@ public class Unit : MonoBehaviour
         UpdateCharacterPosition();
     }
 
+    public void Damage()
+    {
+        Debug.Log(transform.name + "  Damaged");
+    }
+
+    internal Vector3 GetWorldPosition()
+    {
+        return transform.position;
+    }
+
     private void UpdateCharacterPosition()
     {
         GridPosition newgridPosition = LevelGrid.Instance.getGridPosition(transform.position);

@@ -9,6 +9,7 @@ namespace Assets.Scripts.Actions
     {
         protected Unit unit;
         protected bool isActive;
+        private Action onActionComplete;
 
         protected virtual void Awake()
         {
@@ -29,6 +30,18 @@ namespace Assets.Scripts.Actions
         public virtual int getActionPointsCost()
         {
             return 1;
+        }
+
+        protected void ActionStart(Action onActionComplete)
+        {
+            isActive = true;
+            this.onActionComplete = onActionComplete;
+        }
+
+        protected void ActionComplete()
+        {
+            isActive = false;
+            onActionComplete();
         }
     }
 

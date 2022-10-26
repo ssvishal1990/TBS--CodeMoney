@@ -20,6 +20,11 @@ namespace Assets.Scripts.Actions
             {
                 return;
             }
+            Spin();
+        }
+
+        private void Spin()
+        {
             float spinAddAmount = 360f * Time.deltaTime;
             transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
             totalSpinAmount += spinAddAmount;

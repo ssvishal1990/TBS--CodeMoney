@@ -21,11 +21,6 @@ namespace Assets.Scripts.Actions
             targetPosition = transform.position;
         }
 
-        void Start()
-        {
-
-        }
-
         void Update()
         {
             UpdateCharacterPosition();
@@ -40,6 +35,7 @@ namespace Assets.Scripts.Actions
             }
             unitAnimator.SetBool("isWalking", true);
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
             if (!checkIfReached())
             {
                 transform.position += moveDirection * Time.deltaTime * moveSpeed;
@@ -63,24 +59,23 @@ namespace Assets.Scripts.Actions
 
         override public void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            this.onActionComplete = onActionComplete;
+            ActionStart(onActionComplete);
             this.targetPosition = LevelGrid.Instance.getWorldPosition(gridPosition);
-            isActive = true;
-            //this.targetPosition = targetPosition;
         }
 
 
 
         private bool checkIfReached()
         {
-            int distance = (int)Mathf.Round(Vector3.Distance(transform.position, targetPosition));
-            if (distance == 0)
+            float stoppingDistance = .1f;
+            float  distance = Vector3.Distance(transform.position, targetPosition);
+            if (distance >  stoppingDistance)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
