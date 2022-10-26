@@ -46,6 +46,11 @@ public class UnitActionSystem : MonoBehaviour
         {
             return;
         }
+
+        if (!TurnSystem.Instance.IsPlayerTurn())
+        {
+            return;
+        }
         //MoveIfValidGridPosition();
         //SpinUnit();
         if (handleUnitSelection())
@@ -133,6 +138,11 @@ public class UnitActionSystem : MonoBehaviour
                     if (unit == selectedUnit)
                     {
                         //This unit is already selected
+                        return false;
+                    }
+
+                    if (unit.IsEnemy())
+                    {
                         return false;
                     }
                     setSelectedUnit(unit);

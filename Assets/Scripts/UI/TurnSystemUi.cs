@@ -8,21 +8,17 @@ using UnityEngine.UI;
 public class TurnSystemUi : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI turnNumberText;
-    
     [SerializeField] private Button endTurnButton;
+    [SerializeField] private GameObject enemyTurnSystemVisual;
 
 
     void Start()
     {
         UpdateTurnSystemUI();
         UpdateTurnText();
+        UpdateEnemyTurnVisual();
+        UpdateEndTurnButtonVisibility();
         TurnSystem.Instance.onTurnChanged += TurnSystem_OnTurnChanged;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void UpdateTurnSystemUI()
@@ -32,16 +28,13 @@ public class TurnSystemUi : MonoBehaviour
             Debug.Log("Triggering next turn method");
             TurnSystem.Instance.NextTurn();
         });
-        //endTurnButton.onClick.AddListener(() =>
-        //{
-
-        //});
-
     }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         UpdateTurnText();
+        UpdateEndTurnButtonVisibility();
+        UpdateEnemyTurnVisual();
     }
 
     private void UpdateTurnText()
@@ -49,5 +42,14 @@ public class TurnSystemUi : MonoBehaviour
         turnNumberText.text = "TURN : " + TurnSystem.Instance.getCurrentTurnNumber().ToString();
     }
 
+    private void UpdateEnemyTurnVisual()
+    {
+        enemyTurnSystemVisual.gameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn());
+    }
+
+    private void UpdateEndTurnButtonVisibility()
+    {
+        endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
+    }
     //public void 
 }
