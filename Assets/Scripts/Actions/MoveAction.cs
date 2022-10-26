@@ -9,11 +9,13 @@ namespace Assets.Scripts.Actions
 {
         [SerializeField] float moveSpeed = 4f;
         [SerializeField] private float characterRotateSpeed = 4f;
-        [SerializeField] private Animator unitAnimator;
         [SerializeField] private int maxMoveDistance = 4;
 
         private Vector3 targetPosition;
         private Action onActionComplete;
+
+        public event EventHandler OnStartMoving;
+        public event EventHandler OnStopMoving;
 
         protected override void Awake()
         {
@@ -33,21 +35,17 @@ namespace Assets.Scripts.Actions
             {
                 return;
             }
-            unitAnimator.SetBool("isWalking", true);
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
             if (!checkIfReached())
             {
                 transform.position += moveDirection * Time.deltaTime * moveSpeed;
-                //transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * characterRotateSpeed);
                 GetValidActionGridPosition();
-                unitAnimator.SetBool("isWalking", true);
             }
             else
             {
-                unitAnimator.SetBool("isWalking", false);
-                isActive = false;
-                onActionComplete();
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
+                ActionComplete();
             }
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * characterRotateSpeed);
         }
@@ -60,6 +58,7 @@ namespace Assets.Scripts.Actions
         override public void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             ActionStart(onActionComplete);
+            OnStartMoving?.Invoke(this, EventArgs.Empty);
             this.targetPosition = LevelGrid.Instance.getWorldPosition(gridPosition);
         }
 
