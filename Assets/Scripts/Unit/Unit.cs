@@ -20,6 +20,7 @@ public class Unit : MonoBehaviour
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private HealthSystem healthSystem;
     private BaseAction[] baseActionArray;
 
 
@@ -28,6 +29,7 @@ public class Unit : MonoBehaviour
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
+        healthSystem = GetComponent<HealthSystem>();
         //LevelGrid.Instance.SetUnitAtPosition(LevelGrid.Instance.getGridPosition(transform.position), this);
     }
 
@@ -36,8 +38,14 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.getGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtPosition(gridPosition, this);
         TurnSystem.Instance.onTurnChanged += TurnSystem_onTurnChanged;
+        healthSystem.OnDeath += HealthSystem_OnDeath;
     }
 
+    private void HealthSystem_OnDeath(object sender, EventArgs e)
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+        Destroy(gameObject);
+    }
 
     private void Update()
     {
@@ -134,4 +142,6 @@ public class Unit : MonoBehaviour
     }
 
     public bool IsEnemy() => isEnemy;
+
+    public void Damage(int damageAmount) => healthSystem.Damage(damageAmount);
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4173165857035194323}
   - component: {fileID: -8958218398629814242}
   - component: {fileID: -6715927219621713374}
+  - component: {fileID: -8968245898338423377}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -104,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec0e544e91133d4ba90e08930387076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageAmount: 40
 --- !u!114 &-6715927219621713374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +122,20 @@ MonoBehaviour:
   bulletProjectTileTransformPrefab: {fileID: 3933971874863143840, guid: 4fa227b5663aa2245a81576c95b0f7ad,
     type: 3}
   ShootPointTransform: {fileID: 8502784925796434395}
-  bulletMoveSpeed: 10
+  bulletMoveSpeed: 55
+--- !u!114 &-8968245898338423377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3062012551688950948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef77f81d1b92c74bb54a073476257e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &3548171664615600602
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    [SerializeField] int damageAmount;
     private int maxShootDistance = 5;
     
     private float stateTimer;
@@ -38,6 +39,11 @@ public class ShootAction : BaseAction
             return;
         }
 
+        PerformStateActions();
+    }
+
+    private void PerformStateActions()
+    {
         stateTimer -= Time.deltaTime;
         switch (state)
         {
@@ -61,11 +67,6 @@ public class ShootAction : BaseAction
     {
         if (canShootBullet)
         {
-            OnShoot?.Invoke(this, new OnShootEventArgs()
-            {
-                targetUnit = targetUnit,
-                ShootingUnit = unit
-            });
             Shoot();
             canShootBullet = false;
         }
@@ -80,7 +81,12 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
-
+        OnShoot?.Invoke(this, new OnShootEventArgs()
+        {
+            targetUnit = targetUnit,
+            ShootingUnit = unit
+        });
+        targetUnit.Damage(damageAmount);
         targetUnit.Damage();
     }
 
