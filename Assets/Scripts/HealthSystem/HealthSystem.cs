@@ -7,8 +7,9 @@ public class HealthSystem : MonoBehaviour
 {
     public event EventHandler OnDeath;
     [SerializeField] public int health = 100;
+    [SerializeField] private int healthMax = 100;
 
-
+    public event EventHandler OnDamage;
     public void Damage(int damageAmount)
     {
         Debug.Log("Unit Damaged with damage  :  " + damageAmount);
@@ -22,10 +23,16 @@ public class HealthSystem : MonoBehaviour
         {
             Die();
         }
+        OnDamage?.Invoke(this, EventArgs.Empty);
     }
 
     private void Die()
     {
         OnDeath?.Invoke(this, EventArgs.Empty);
+    }
+
+    public float getHealthNormalized()
+    {
+        return (float)health / healthMax;
     }
 }
