@@ -57,9 +57,9 @@ namespace Assets.Scripts.Actions
 
         override public void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            ActionStart(onActionComplete);
             OnStartMoving?.Invoke(this, EventArgs.Empty);
             this.targetPosition = LevelGrid.Instance.getWorldPosition(gridPosition);
+            ActionStart(onActionComplete);
         }
 
 

@@ -31,16 +31,14 @@ namespace Assets.Scripts.Actions
 
             if (totalSpinAmount >= 360f)
             {
-                isActive = false;
-                spinCompletedDelegate();
+                ActionComplete();
             }
         }
 
         public override void TakeAction(GridPosition gridPosition, Action spinCompletedDelegate)
         {
-            this.spinCompletedDelegate = spinCompletedDelegate;
-            isActive = true;
             totalSpinAmount = 0f;
+            ActionStart(spinCompletedDelegate);
         }
 
         public override string GetActionName()

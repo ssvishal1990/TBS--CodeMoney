@@ -6,10 +6,14 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
-    [SerializeField] int damageAmount;
-    private int maxShootDistance = 5;
+    [SerializeField] private int damageAmount;
+    [SerializeField] private float AimingStateTime = 0.1f;
+    [SerializeField] private float shootingStateTime = 0.2f;
+    [SerializeField] private float CoolOffStateTime = 0.1f;
+    [SerializeField] private float stateTimer;
+    [SerializeField] private int maxShootDistance = 5;
     
-    private float stateTimer;
+    
     private bool canShootBullet;
 
     private Action spinCompletedDelegate;
@@ -96,12 +100,10 @@ public class ShootAction : BaseAction
         {
             case State.Aiming:
                 state = State.Shooting;
-                float shootingStateTime = 0.1f;
                 stateTimer = shootingStateTime;
                 break;
             case State.Shooting:
                 state = State.CoolOff;
-                float CoolOffStateTime = 0.1f;
                 stateTimer = CoolOffStateTime;
                 break;
             case State.CoolOff:
@@ -120,16 +122,17 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action spinCompletedDelegate)
     {
-        ActionStart(spinCompletedDelegate);
+        
 
 
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
         state = State.Aiming;
-        float AimingStateTime = 0.1f;
+        
         stateTimer = AimingStateTime;
 
         canShootBullet = true;
+        ActionStart(spinCompletedDelegate);
 
     }
 
@@ -173,5 +176,10 @@ public class ShootAction : BaseAction
             }
         }
         return validGridPositions;
+    }
+
+    public Unit getTargetUnit()
+    {
+        return targetUnit;
     }
 }

@@ -5,8 +5,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.Actions
 {
+    
     public abstract  class BaseAction : MonoBehaviour
     {
+        public static event EventHandler onAnyActionStarts;
+        public static event EventHandler onAnyActionCompletes;
         protected Unit unit;
         protected bool isActive;
         private Action onActionComplete;
@@ -34,6 +37,7 @@ namespace Assets.Scripts.Actions
 
         protected void ActionStart(Action onActionComplete)
         {
+            onAnyActionStarts?.Invoke(this, EventArgs.Empty);
             isActive = true;
             this.onActionComplete = onActionComplete;
         }
@@ -42,6 +46,12 @@ namespace Assets.Scripts.Actions
         {
             isActive = false;
             onActionComplete();
+            onAnyActionCompletes?.Invoke(this, EventArgs.Empty);
+        }
+
+        public Unit GetUnit()
+        {
+            return unit;
         }
     }
 
