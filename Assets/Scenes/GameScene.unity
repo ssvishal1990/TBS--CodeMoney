@@ -154,6 +154,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSystemVisualPrefab: {fileID: 4168071675726325196, guid: 56c0f22cdbfec894b9fe613b695ea9dd,
     type: 3}
+  gridVisualTypeMaterials:
+  - gridVisualType: 0
+    material: {fileID: 2100000, guid: 97b60a10b9e8e9a44a631f8b6ea89220, type: 2}
+  - gridVisualType: 1
+    material: {fileID: 2100000, guid: 2914bbc2831d1bc4ba765f47690f69d7, type: 2}
+  - gridVisualType: 2
+    material: {fileID: 2100000, guid: 5f6d87d56a160d848b0340962fad342b, type: 2}
+  - gridVisualType: 4
+    material: {fileID: 2100000, guid: 53332bbc827b1474aa7e2a3fb20a2a6f, type: 2}
+  - gridVisualType: 3
+    material: {fileID: 2100000, guid: 8dcfed8d90a759d4d837c309109e65d8, type: 2}
 --- !u!4 &149032456
 Transform:
   m_ObjectHideFlags: 0
@@ -1109,7 +1120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1019322999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3279,11 +3290,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8958218398629814242, guid: 49af02b4b30a79444a30068654876d0b,
-        type: 3}
-      propertyPath: shootingStateTime
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3062012551688950939, guid: 49af02b4b30a79444a30068654876d0b,
         type: 3}
       propertyPath: m_RootOrder
