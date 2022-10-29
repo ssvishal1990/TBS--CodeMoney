@@ -91,7 +91,6 @@ public class ShootAction : BaseAction
             ShootingUnit = unit
         });
         targetUnit.Damage(damageAmount);
-        targetUnit.Damage();
     }
 
     private void NextState()

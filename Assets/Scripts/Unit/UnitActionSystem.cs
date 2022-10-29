@@ -81,16 +81,6 @@ public class UnitActionSystem : MonoBehaviour
             setBusy();
             onActionStarted?.Invoke(this, EventArgs.Empty);
             selectedAction.TakeAction(mouseGridPosition, clearBusy);
-
-            //switch (selectedAction)
-            //{
-            //    case MoveAction moveAction:
-            //        MoveIfValidGridPosition(moveAction);
-            //        break;
-            //    case SpinAction spinAction:
-            //        SpinUnit();
-            //        break;
-            //}
         }
     }
 

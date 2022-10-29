@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour
 
 
     public static EventHandler OnAnyActionPointsChanged;
+    public static EventHandler OnAnyUnitSpawned;
+    public static EventHandler OnAnyUnitDeath;
 
     private const int ACTION_POINTS_MAX = 2;
     private int actionPoints = ACTION_POINTS_MAX;
@@ -39,12 +41,15 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.AddUnitAtPosition(gridPosition, this);
         TurnSystem.Instance.onTurnChanged += TurnSystem_onTurnChanged;
         healthSystem.OnDeath += HealthSystem_OnDeath;
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+        
     }
 
     private void HealthSystem_OnDeath(object sender, EventArgs e)
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         Destroy(gameObject);
+        OnAnyUnitDeath?.Invoke(this, EventArgs.Empty);
     }
 
     private void Update()
@@ -52,10 +57,6 @@ public class Unit : MonoBehaviour
         UpdateCharacterPosition();
     }
 
-    public void Damage()
-    {
-        Debug.Log(transform.name + "  Damaged");
-    }
 
     internal Vector3 GetWorldPosition()
     {
